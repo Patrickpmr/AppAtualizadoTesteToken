@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("POO Android", "objeto Pessoa:" + pessoa.toString());
         Log.i("POO Android", "objeto OutraPessoa:" + outraPessoa.toString());
+        // apagar
 
     }
 }
