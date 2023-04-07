@@ -2,6 +2,7 @@ package devandroid.patrick.appatualizado.view.view1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,10 @@ import devandroid.patrick.appatualizado.view.conttroler.PessoaController;
 import devandroid.patrick.appatualizado.view.model.Pessoa;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences preferences;
+    public static final String NOME_PREFERENCES = "pref_listavip";
+
     PessoaController controller;
 
     Pessoa pessoa;
@@ -34,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferences = getSharedPreferences(NOME_PREFERENCES,0);
+        SharedPreferences.Editor melhorLista = preferences.edit();
 
         controller = new PessoaController();
         controller.toString();
@@ -91,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 pessoa.setTelefoneContato(editTelefone.getText().toString());
 
                 Toast.makeText(MainActivity.this, "Salvo" + pessoa.toString(), Toast.LENGTH_LONG).show();
+
+                melhorLista.putString("primeiroNome",pessoa.getPrimeiroNome());
+                melhorLista.putString("sobreNome",pessoa.getSobreNome());
+                melhorLista.putString("cursoDesejado",pessoa.getCursoDesejado());
+                melhorLista.putString("telefone",pessoa.getTelefoneContato());
+                melhorLista.apply();
 
                 controller.salvar(pessoa);
 
