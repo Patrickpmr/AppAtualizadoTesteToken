@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Log.i("POO Android", "objeto Pessoa:" + pessoa.toString());
-        // apagar
+        // apagar2
 
     }
 }
