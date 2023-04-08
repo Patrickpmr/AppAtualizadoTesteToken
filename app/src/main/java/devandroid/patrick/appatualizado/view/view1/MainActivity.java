@@ -16,10 +16,6 @@ import devandroid.patrick.appatualizado.view.model.Pessoa;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor melhorLista;
-    public static final String NOME_PREFERENCES = "pref_listavip";
-
     PessoaController controller;
 
     Pessoa pessoa;
@@ -41,17 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getSharedPreferences(NOME_PREFERENCES,0);
-        melhorLista = preferences.edit();
-
-        controller = new PessoaController();
+        controller = new PessoaController(MainActivity.this);
         controller.toString();
 
         pessoa = new Pessoa();
-        pessoa.setPrimeiroNome(preferences.getString("primeiroNome",""));
-        pessoa.setSobreNome(preferences.getString("sobreNome",""));
-        pessoa.setCursoDesejado(preferences.getString("cursoDesejado",""));
-        pessoa.setTelefoneContato(preferences.getString("telefone",""));
+        controller.buscar(pessoa);
 
         editPrimeiroNome = findViewById(R.id.editPrimeiroNome);
         editSobreNome = findViewById(R.id.editSobreNome);
@@ -72,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 editNomedoCurso.setText("");
                 editTelefone.setText("");
 
-                melhorLista.clear();
-                melhorLista.apply();
+                controller.limpar();
+
             }
         });
 
@@ -94,12 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 pessoa.setTelefoneContato(editTelefone.getText().toString());
 
                 Toast.makeText(MainActivity.this, "Salvo" + pessoa.toString(), Toast.LENGTH_LONG).show();
-
-                melhorLista.putString("primeiroNome",pessoa.getPrimeiroNome());
-                melhorLista.putString("sobreNome",pessoa.getSobreNome());
-                melhorLista.putString("cursoDesejado",pessoa.getCursoDesejado());
-                melhorLista.putString("telefone",pessoa.getTelefoneContato());
-                melhorLista.apply();
 
                 controller.salvar(pessoa);
 
