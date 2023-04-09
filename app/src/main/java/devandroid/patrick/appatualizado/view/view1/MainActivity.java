@@ -2,12 +2,13 @@ package devandroid.patrick.appatualizado.view.view1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.List;
 import devandroid.patrick.appatualizado.R;
 import devandroid.patrick.appatualizado.view.conttroler.CursoController;
 import devandroid.patrick.appatualizado.view.conttroler.PessoaController;
-import devandroid.patrick.appatualizado.view.model.Curso;
 import devandroid.patrick.appatualizado.view.model.Pessoa;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     Pessoa pessoa;
 
-    List<Curso> listaDeCursos;
+    List<String> nomesDosCursos;
 
     Pessoa outraPessoa;
     String dadosPessoa;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     Button salvar;
     Button finalizar;
 
+    Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         controller = new PessoaController(MainActivity.this);
         controller.toString();
 
-        cursoController = new CursoController();
-        listaDeCursos = cursoController.getListaDeCursos();
 
         pessoa = new Pessoa();
         controller.buscar(pessoa);
@@ -60,10 +60,25 @@ public class MainActivity extends AppCompatActivity {
         editTelefone = findViewById(R.id.editTelefone);
 
         editPrimeiroNome.setText(pessoa.getPrimeiroNome());
+        //PODE Haver Um Erro Aqui
 
         limpar = findViewById(R.id.limpar);
         salvar = findViewById(R.id.salvar);
         finalizar = findViewById(R.id.finalizar);
+
+        //Adapter
+        //layout
+        //injetar o Adapter ao Spinner
+
+        cursoController = new CursoController();
+        nomesDosCursos = cursoController.dadosParaSpinner();
+        spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new  ArrayAdapter<>(this,android.R.layout.simple_list_item_1,
+                cursoController.dadosParaSpinner());
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        spinner.setAdapter(adapter);
+
 
         limpar.setOnClickListener(new View.OnClickListener() {
             @Override
